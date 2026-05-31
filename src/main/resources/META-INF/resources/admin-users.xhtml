@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/templates/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="listForm">
+            <p:panel header="#{msg['user.management']}">
+                <p:commandButton value="#{msg['user.new']}" icon="pi pi-plus" action="#{adminUserBean.prepareNew}"
+                                 oncomplete="PF('userDialog').show()" process="@this" update=":dialogForm"/>
+                <br/><br/>
+
+                <p:dataTable var="user" value="#{adminUserBean.users}" paginator="true" rows="10"
+                             emptyMessage="No users found.">
+                    <p:column headerText="#{msg['user.id']}" style="width:50px">#{user.id}</p:column>
+                    <p:column headerText="#{msg['user.username']}">#{user.username}</p:column>
+                    <p:column headerText="#{msg['user.email']}">#{user.email}</p:column>
+                    <p:column headerText="#{msg['user.role']}">#{user.role}</p:column>
+                    <p:column headerText="#{msg['user.active']}" style="width:80px">
+                        <h:graphicImage name="images/check.png" rendered="#{user.active}" style="width:16px"/>
+                    </p:column>
+                    <p:column headerText="#{msg['user.edit']}" style="width:160px">
+                        <p:commandButton icon="pi pi-pencil" title="#{msg['user.edit']}"
+                                         action="#{adminUserBean.prepareEdit(user)}"
+                                         oncomplete="PF('userDialog').show()" process="@this" update=":dialogForm"/>
+                        <p:commandButton icon="pi pi-trash" title="#{msg['user.delete']}"
+                                         action="#{adminUserBean.delete(user)}"
+                                         update=":listForm" process="@this"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <h:form id="dialogForm">
+            <p:dialog widgetVar="userDialog" header="#{msg['user.management']}" modal="true" width="450">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="username" value="#{msg['user.username']}"/>
+                    <p:inputText id="username" value="#{adminUserBean.selectedUser.username}" required="true"/>
+
+                    <p:outputLabel for="email" value="#{msg['user.email']}"/>
+                    <p:inputText id="email" value="#{adminUserBean.selectedUser.email}" required="true"/>
+
+                    <p:outputLabel for="role" value="#{msg['user.role']}"/>
+                    <p:selectOneMenu id="role" value="#{adminUserBean.selectedUser.role}">
+                        <f:selectItem itemLabel="#{msg['user.selectRole']}" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="ADMIN" itemValue="ADMIN"/>
+                        <f:selectItem itemLabel="USER" itemValue="USER"/>
+                        <f:selectItem itemLabel="MODERATOR" itemValue="MODERATOR"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="active" value="#{msg['user.active']}"/>
+                    <p:selectBooleanCheckbox id="active" value="#{adminUserBean.selectedUser.active}"/>
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="#{msg['user.save']}" icon="pi pi-check"
+                                     action="#{adminUserBean.save()}"
+                                     onsuccess="PF('userDialog').hide()"
+                                     update=":listForm :dialogForm"/>
+                    <p:commandButton value="#{msg['user.cancel']}" icon="pi pi-times"
+                                     onclick="PF('userDialog').hide()" type="button"/>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,10 @@
+html[dir="rtl"] .ui-dialog .ui-dialog-titlebar-close {
+    left: 0.5em;
+    right: auto;
+}
+html[dir="rtl"] .ui-panel .ui-panel-titlebar {
+    text-align: right;
+}
+html[dir="rtl"] .ui-datatable th {
+    text-align: right;
+}

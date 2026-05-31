@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+<h:head>
+    <title>Login - Skyface</title>
+    <style>
+        body { display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; background:#f0f2f5; font-family:var(--font-family, "Open Sans","Helvetica Neue",sans-serif); }
+        .login-card { width:360px; }
+        .login-card input { width:100%; padding:0.5em; box-sizing:border-box; }
+        .login-card .ui-panel-content { padding:1em !important; }
+        .error-msg { color:#e74c3c; margin-bottom:1em; text-align:center; }
+    </style>
+</h:head>
+<h:body>
+    <div class="login-card">
+        <p:panel header="Skyface - Login">
+            <div class="ui-panel-content">
+                <h:panelGroup rendered="#{param.error != null}">
+                    <div class="error-msg">Invalid username or password</div>
+                </h:panelGroup>
+                <form action="#{request.contextPath}/login" method="post">
+                    <label for="username" style="display:block; margin-bottom:0.3em;">Username</label>
+                    <input type="text" id="username" name="username" required="true" style="margin-bottom:1em;"/>
+
+                    <label for="password" style="display:block; margin-bottom:0.3em;">Password</label>
+                    <input type="password" id="password" name="password" required="true" style="margin-bottom:1.5em;"/>
+
+                    <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="width:100%; padding:0.5em;">
+                        <span class="ui-button-text">Login</span>
+                    </button>
+                </form>
+            </div>
+        </p:panel>
+    </div>
+</h:body>
+</f:view>
+</html>
